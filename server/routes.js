@@ -62,16 +62,20 @@ app.post('/signup', function(req, res, next){
     var hash_pass = bcrypt.hashSync(password, salt);
     var vkey      = Math.random().toString(36).substring(7);
     console.log(vkey);
+    console.log(req.body)
     db.query('SELECT * FROM users WHERE username = ?',[username], function (error, results, fields) {
       if (!validateEmail(email)){
-        res.render('signup', {error_msg: "Email is not a Valid address"});
+        // res.render('signup', {error_msg: "Email is not a Valid address"});
+        res.send({status: "failure" ,msg: "Email is not a Valid address"})
       }else{
       if(results.length > 0){
-        res.render('signup', {error_msg: "Username Exists"});
+        //res.render('signup', {error_msg: "Username Exists"});
+        res.send({status: "failure" ,msg: "Username Exists"})
       }else{
         db.query('SELECT * FROM users WHERE email = ?',[email], function (error, results, fields) {
           if(results.length > 0){
-            res.render('signup', {error_msg: "Email Exists"});
+            //res.render('signup', {error_msg: "Email Exists"});
+            res.send({status: "failure" ,msg: "Email Exists"})
           }else {
             var insertQuery = "INSERT INTO users (username, password, email, mail_verif, verif_code) values (?, ?, ?, ?, ?)";
             db.query(insertQuery, [username, hash_pass, email, 0, vkey]);
@@ -91,7 +95,8 @@ app.post('/signup', function(req, res, next){
                     console.log("Message sent: " + response.message);
                 }
             });
-            res.render('login.ejs', {error_msg: false});
+            res.send({status: "success" ,msg: "Account was succefully created"})
+           // res.render('login.ejs', {error_msg: false});
           }})
     }}})
 })
@@ -137,22 +142,22 @@ app.post('/login', function(req, res){
       "code":400,
       "failed":"error ocurred"
     })
-  }else{
-    if(results.length > 0){
-      if(bcrypt.compareSync(password, results[0].password)){
-        db.query('SELECT `mail_verif` FROM `users` WHERE username = ?',[username], function (error, results, fields){
-          if (results[0].mail_verif == 1){
-            req.session.user = username;
-            res.redirect('/profile');
-          }else{
-            res.render('login', {error_msg: "Mail is not verified"}); 
-          }
-        })
+  } else {
+      if(results.length > 0){
+        if(bcrypt.compareSync(password, results[0].password)){
+          db.query('SELECT `mail_verif` FROM `users` WHERE username = ?',[username], function (error, results, fields){
+            if (results[0].mail_verif == 1){
+              req.session.user = username;
+              res.redirect('/profile');
+            }else{
+              res.render('login', {error_msg: "Mail is not verified"}); 
+            }
+          })
+        }
+        else{
+          res.render('login', {error_msg: "Wrong Password"});
+        }
       }
-      else{
-        res.render('login', {error_msg: "Wrong Password"});
-      }
-    }
     else{
         res.render('login', {error_msg: "Wrong Username"});
       }

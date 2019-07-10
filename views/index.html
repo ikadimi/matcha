@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .color-box{
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+        }
+        .disabledButton {
+            text-decoration: line-through;
+        }
+    </style>
+</head>
+<div class="nav-bar"></div>
+<body>
+    <div id="app">
+        <div class="cart">
+                <p>Cart({{ cart.length }})</p>
+        </div>
+        <product v-bind:premium="premium" @add-to-cart="updateCart"></product>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="main.js"></script>
+</html>
