@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <title>Login Register</title>
+ <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+ <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+ <style>
+  html{
+   padding:50px;
+  }
+ </style>
+</head>
+<body>
+ <div class="container">
+  <div class="page-header text-center">
+   <h1>My Profile</h1>
+   <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+  </div>
+
+  <div class="row">
+   <div class="col-sm-12">
+    <div class="well">
+     <% if (user) { %>
+     <h3><span class="fa fa-user"></span> Welcome <%= user %></h3>
+
+     <p>
+      <strong>username</strong> <%= user %> <br>
+     </p>
+    <% } %>
+    </div>
+   </div>
+  </div>
+ </div>
+ <select class="browser-default custom-select">
+    <option selected>Your Gender</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <select class="browser-default custom-select">
+    <option selected>Show me</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+  </select>
+
+  <input type="text" id="tags">
+</body>
+<script>
+    $('#tags').selectize({
+    delimiter: ',',
+    persist: false,
+    create: function(input) {
+        return {
+            value: input,
+            text: input
+        }
+    }
+});
+</script>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ <title>Login Register</title>
+ <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+ <link rel="stylesheet" 
+ href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+ <style>
+  html{
+   padding:50px;
+  }
+ </style>
+</head>
+<body>
+    <% if (error_msg != '') { %>
+        <div class="alert alert-danger" role="alert" onclick="removeDiv(this)"><%= error_msg %></div>
+    <% } %>
+    <% if (success_msg != '') { %>
+        <div class="alert alert-success" role="alert" onclick="removeDiv(this)"><%= success_msg %></div>
+    <% } %>
+ <div class="container">
+  <div class="col-sm-6 col-sm-offset-3">
+   <h2>Forgot password</h2>
+   <form action="/forgot_ps" method="post">
+    <div class="form-group">
+     <label>Email</label>
+     <input type="text" class="form-control" name="email">
+    </div>
+
+    <button type="submit" class="btn btn-succcess btn-lg">Submit</button>
+   </form>
+
+   <hr>
+
+   <p>Go Back to <a href="/login">login</a>.</p>
+  </div>
+ </div>
+</body>
+<script>
+    function    removeDiv(n){
+        n.parentNode.removeChild(n);
+    }
+</script>
+</html>
