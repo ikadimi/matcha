@@ -1,23 +1,38 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
-  </div>
+  <v-app>
+    <Navbar v-if="this.$route.name !== 'login' && this.$route.name !== 'signup' && this.$route.name !== 'forgot'" />
+    <EmptyNav v-else></EmptyNav>
+    <v-content class="mx-4 mb-4">
+      
+      <router-view @inputData="updateData"></router-view>
+
+    </v-content>
+    <Footer />
+  </v-app>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar'
+import Footer from '@/components/Footer'
+import EmptyNav from '@/components/Empty_nav'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {
+    Navbar,
+    Footer,
+    EmptyNav
+  },
+  data () {
+    return {
+      userData: {}
+    }
+  },
+  methods: {
+    updateData(data) {
+      console.log("data");
+      this.userData = data;
+    }
+  }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

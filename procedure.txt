@@ -1,0 +1,70 @@
+BEGIN
+DECLARE x  INT;
+DECLARE str VARCHAR(100);
+DECLARE email VARCHAR(100);
+DECLARE agegap INT;
+DECLARE age INT;
+DECLARE distance INT;
+DECLARE famegap INT;
+DECLARE tagNumber INT;
+DECLARE latitude DOUBLE;
+DECLARE longitude DOUBLE;
+DECLARE autoLocation TINYINT(1);
+DECLARE myGender VARCHAR(100);
+DECLARE otherGender VARCHAR(100);
+DECLARE img VARCHAR(100);
+DECLARE img1 VARCHAR(100);
+DECLARE fame int;
+DECLARE u int;
+DECLARE url varchar(100);
+
+
+SET x = 0;
+SET str = 'user' ;
+
+
+WHILE x <= 100 DO
+
+SET str  =  CONCAT(str,x);
+SET email = CONCAT(str,'@1337.ma');
+SET agegap = x % 20 + 1;
+SET age = x % 18 + 18;
+SET distance = x % 100 + 1;
+SET famegap = x % 4 + 1;
+SET tagNumber = x % 5 + 1;
+SET latitude = 32.8781004;
+SET longitude = -6.8887306;
+SET autoLocation = 1;
+set fame = x % 3 + 2;
+SET u = fame + tagNumber;
+
+
+if (famegap = 1) then SET myGender = 'Man';
+                     SET otherGender = 'Woman';
+                     SET img = CONCAT('uploads/fake_image/111', u, '.jpg');
+   END IF;
+if (famegap = 2) then SET myGender = 'Other';
+                     SET otherGender = 'Other';
+                     SET img = CONCAT('uploads/fake_image/222', u, '.jpg');
+  END IF;
+if (famegap = 3 || famegap = 0 ) then SET myGender = 'Woman';
+                     SET otherGender = 'Man';
+                     SET img = CONCAT('uploads/fake_image/000', u, '.jpg');
+  END IF;
+
+
+
+SET x =  x + 1;
+insert into `users` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `online`, `last_connection`, `mail_verif`, `verif_code`)
+values (x,str, str, str, '$2b$10$DpSfchBB6Ro/QYkXRW0yceVgdXJ4XwKl5WUTetEzr5UnJXN0kyJou', email, 0, '2019-08-16 14:50:22', 1, 0);
+insert into `user_pref` (`id`, `ageGap`, `distance`, `fameGap`, `tagNumber`, `latitude`, `longitude`, `autoLocation`)
+values (x, agegap, distance, famegap, tagNumber, latitude, longitude, autoLocation);
+insert into `user_images` (`id`, `profile_img`, `image_0`, `image_1`, `image_2`, `image_3`, `image_count`)
+values (x, img, img, 'uploads/placeholder.png', 'uploads/placeholder.png', 'uploads/placeholder.png', 1);
+insert into `user_data` (`id`, `bio`, `age`, `location`, `myGender`, `otherGender`, `tags`, `background_img`, `fame`)
+values (x, 'Searching for Love', age, 'khouribga', myGender, otherGender, 'food,wild,love,tropical,summer', '1337', fame);
+SET str = 'user';
+
+END WHILE;
+
+END

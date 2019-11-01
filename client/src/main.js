@@ -1,15 +1,38 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import App from './App'
+import './plugins/vuetify'
+import App from './App.vue'
 import router from './router'
+import SettingsComponent from '@/views/Settings'
+import store from './store'
+import axios from 'axios'
+import Vuetify from "vuetify"
+import io from 'socket.io-client'
+import VueSocketIO from 'vue-socket.io'
+
+Vue.use(new VueSocketIO({ 
+  connection: io('http://localhost:3001') 
+}))
 
 Vue.config.productionTip = false
+Vue.use(Vuetify);
 
-/* eslint-disable no-new */
+const token = window.localStorage.getItem('token')
+if (token) axios.defaults.headers.common['x-auth-token'] = token
+else delete axios.defaults.headers.common['x-auth-token']
+
 new Vue({
-  el: '#app',
+  name: "ParentComponent",
   router,
-  components: { App },
-  template: '<App/>'
-})
+  store,
+  data: {
+
+    userAuth: token ? token : false,
+    userData: {},
+    
+  },
+  components: {
+    SettingsComponent,
+  },
+  
+  render: h => h(App),
+}).$mount('#app')
